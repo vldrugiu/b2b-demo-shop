@@ -79,71 +79,71 @@ groups:
             Redirects:
                 application: static
                 endpoints:
-                    de.amal-prod.cloud.spryker.toys:
+                    de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
                         redirect:
                             type: 302
-                            url: www.de.amal-prod.cloud.spryker.toys
-                    at.amal-prod.cloud.spryker.toys:
+                            url: www.de.amal-b2b-prod.cloud.spryker.toys
+                    at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
                         redirect:
                             code: 302
-                            url: www.at.amal-prod.cloud.spryker.toys
-                    us.amal-prod.cloud.spryker.toys:
+                            url: www.at.amal-b2b-prod.cloud.spryker.toys
+                    us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
                         redirect:
                             code: 302
-                            url: www.us.amal-prod.cloud.spryker.toys
+                            url: www.us.amal-b2b-prod.cloud.spryker.toys
             Yves:
                 application: yves
                 endpoints:
-                    www.de.amal-prod.cloud.spryker.toys:
+                    www.de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
-                    www.at.amal-prod.cloud.spryker.toys:
+                    www.at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
-                    www.us.amal-prod.cloud.spryker.toys:
+                    www.us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
             boffice:
                 application: backoffice
                 endpoints:
-                    backoffice.de.amal-prod.cloud.spryker.toys:
+                    backoffice.de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
                         <<: *frontend-auth
-                    backoffice.at.amal-prod.cloud.spryker.toys:
+                    backoffice.at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
                         <<: *frontend-auth
-                    backoffice.us.amal-prod.cloud.spryker.toys:
+                    backoffice.us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
                         <<: *frontend-auth
             backgw:
                 application: backend-gateway
                 endpoints:
-                    backend-gateway.de.amal-prod.cloud.spryker.toys:
+                    backend-gateway.de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
-                    backend-gateway.at.amal-prod.cloud.spryker.toys:
+                    backend-gateway.at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
-                    backend-gateway.us.amal-prod.cloud.spryker.toys:
+                    backend-gateway.us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
             backapi:
                 application: zed
                 endpoints:
-                    backend-api.de.amal-prod.cloud.spryker.toys:
+                    backend-api.de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
                         entry-point: BackendApi
-                    backend-api.at.amal-prod.cloud.spryker.toys:
+                    backend-api.at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
                         entry-point: BackendApi
-                    backend-api.us.amal-prod.cloud.spryker.toys:
+                    backend-api.us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
                         entry-point: BackendApi
             Glue:
                 application: glue
                 endpoints:
-                    glue.de.amal-prod.cloud.spryker.toys:
+                    glue.de.amal-b2b-prod.cloud.spryker.toys:
                         store: DE
-                    glue.at.amal-prod.cloud.spryker.toys:
+                    glue.at.amal-b2b-prod.cloud.spryker.toys:
                         store: AT
-                    glue.us.amal-prod.cloud.spryker.toys:
+                    glue.us.amal-b2b-prod.cloud.spryker.toys:
                         store: US
 services:
     database:
@@ -162,7 +162,7 @@ services:
             username: "spryker"
             password: "secret"
         endpoints:
-            queue.amal-prod.cloud.spryker.toys:
+            queue.amal-b2b-prod.cloud.spryker.toys:
             localhost:5672:
                 protocol: tcp
     session:
@@ -183,11 +183,11 @@ services:
         version: '2.324'
         csrf-protection-enabled: true
         endpoints:
-            scheduler.amal-prod.cloud.spryker.toys:
+            scheduler.amal-b2b-prod.cloud.spryker.toys:
     mail_catcher:
         engine: mailhog
         endpoints:
-            mail.amal-prod.cloud.spryker.toys:
+            mail.amal-b2b-prod.cloud.spryker.toys:
 
 docker:
 
