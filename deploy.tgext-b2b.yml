@@ -1,0 +1,200 @@
+version: "0.1"
+
+x-real-ip: &real-ip
+    real-ip:
+        from:
+            - 10.0.0.0/8 # AWS VPC network
+            - 103.21.244.0/22 # Cloudflare
+            - 103.22.200.0/22 # Cloudflare
+            - 103.31.4.0/22 # Cloudflare
+            - 104.16.0.0/12 # Cloudflare
+            - 108.162.192.0/18 # Cloudflare
+            - 131.0.72.0/22 # Cloudflare
+            - 141.101.64.0/18 # Cloudflare
+            - 162.158.0.0/15 # Cloudflare
+            - 172.64.0.0/13 # Cloudflare
+            - 173.245.48.0/20 # Cloudflare
+            - 188.114.96.0/20 # Cloudflare
+            - 190.93.240.0/20 # Cloudflare
+            - 197.234.240.0/22 # Cloudflare
+            - 198.41.128.0/17 # Cloudflare
+            - 2400:cb00::/32 # Cloudflare
+            - 2606:4700::/32 # Cloudflare
+            - 2803:f800::/32 # Cloudflare
+            - 2405:b500::/32 # Cloudflare
+            - 2405:8100::/32 # Cloudflare
+            - 2c0f:f248::/32 # Cloudflare
+            - 2a06:98c0::/29 # Cloudflare
+
+x-frontend-auth: &frontend-auth
+    <<: *real-ip
+    auth:
+        engine: basic
+        users:
+            - username: cloud
+              password: cloud
+        exclude:
+            - '${ALLOWED_IP}' # AWS gateway
+            - 185.60.20.0/24 # PayOne
+
+namespace: spryker-cloud # INIT_IMAGE_PREFIX
+tag: '1.0'
+
+environment: docker.dev
+image:
+    tag: spryker/php:7.4  # Last actual image
+composer:
+    mode: --no-dev
+    autoload: --classmap-authoritative
+
+assets:
+    image: fholzer/nginx-brotli:v1.18.0
+    mode: production
+    compression:
+        brotli:
+            static: only
+        gzip:
+            static: true
+            level: 5
+regions:
+    EU:
+        services:
+            database:
+                database: tgext_b2b
+                username: spryker
+                password: secret
+        stores:
+            DE:
+                services:
+                    broker:
+                        namespace: de_queue
+                    key_value_store:
+                        namespace: 1
+                    search:
+                        namespace: de_search
+                    session:
+                        namespace: 2
+            AT:
+                services:
+                    broker:
+                        namespace: at_queue
+                    key_value_store:
+                        namespace: 1
+                    search:
+                        namespace: at_search
+                    session:
+                        namespace: 2
+
+groups:
+    EU:
+        region: EU
+        applications:
+            Yves:
+                application: yves
+                endpoints:
+                    www.de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                        <<: *frontend-auth
+                    de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                        <<: *frontend-auth
+                    www.at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+                        <<: *frontend-auth
+                    at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+                        <<: *frontend-auth
+            boffice:
+                application: backoffice
+                endpoints:
+                    backoffice.de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                        primal: true
+                    backoffice.at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+            backgw:
+                application: backend-gateway
+                endpoints:
+                    backend-gateway.de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                        primal: true
+                    backend-gateway.at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+            backapi:
+                application: zed
+                endpoints:
+                    backend-api.de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                        entry-point: BackendApi
+                    backend-api.at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+                        entry-point: BackendApi
+            Glue:
+                application: glue
+                endpoints:
+                    glue.de.tgext-b2b.cloud.spryker.toys:
+                        store: DE
+                    glue.at.tgext-b2b.cloud.spryker.toys:
+                        store: AT
+services:
+    database:
+        engine: mysql
+        version: mariadb-10.4
+        root:
+            username: "root"
+            password: "secret"
+        endpoints:
+            localhost:3306:
+                protocol: tcp
+    broker:
+        engine: rabbitmq
+        version: '3.9'
+        api:
+            username: "spryker"
+            password: "secret"
+        endpoints:
+            queue.tgext-b2b.cloud.spryker.toys:
+            localhost:5672:
+                protocol: tcp
+    session:
+        engine: redis
+    key_value_store:
+        engine: redis
+        endpoints:
+            localhost:16379:
+                protocol: tcp
+    search:
+        engine: elastic
+        version: 7.6
+        endpoints:
+            localhost:9200:
+                protocol: tcp
+    scheduler:
+        engine: jenkins
+        version: '2.324'
+        csrf-protection-enabled: true
+        endpoints:
+            jenkins.tgext-b2b.cloud.spryker.toys:
+    mail_catcher:
+        engine: mailhog
+        endpoints:
+            mail.tgext-b2b.cloud.spryker.toys:
+
+docker:
+    blackfire:
+        enabled: true
+
+    ssl:
+        enabled: true
+        redirect: true
+
+    testing:
+        store: DE
+
+    debug:
+        enabled: false
+        xdebug:
+            enabled: false
+
+    mount:
+        baked:
