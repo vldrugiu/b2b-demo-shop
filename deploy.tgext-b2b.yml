@@ -7,12 +7,12 @@ x-frontend-auth: &frontend-auth
             - username: cloud
               password: cloud
 
-namespace: spryker-cloud # INIT_IMAGE_PREFIX
+namespace: spryker-cloud
 tag: '1.0'
 
 environment: docker.dev
 image:
-    tag: spryker/php:7.4  # Last actual image
+    tag: spryker/php:7.4
     environment:
         SPRYKER_DEFAULT_STORE: "DE"
         SPRYKER_ACTIVE_STORES: "DE,AT"
@@ -69,32 +69,26 @@ groups:
             Yves:
                 application: yves
                 endpoints:
-                    www.de.tgext-b2b.cloud.spryker.toys:
+                    www.de.tgdev-b2b.cloud.spryker.toys:
                         store: DE
                         <<: *frontend-auth
-                    de.tgext-b2b.cloud.spryker.toys:
-                        store: DE
-                        <<: *frontend-auth
-                    www.at.tgext-b2b.cloud.spryker.toys:
-                        store: AT
-                        <<: *frontend-auth
-                    at.tgext-b2b.cloud.spryker.toys:
+                    www.at.tgdev-b2b.cloud.spryker.toys:
                         store: AT
                         <<: *frontend-auth
             boffice:
                 application: backoffice
                 endpoints:
-                    backoffice.de.tgext-b2b.cloud.spryker.toys:
+                    backoffice.de.tgdev-b2b.cloud.spryker.toys:
                         store: DE
-                        primal: true
-                    backoffice.at.tgext-b2b.cloud.spryker.toys:
+                        <<: *frontend-auth
+                    backoffice.at.tgdev-b2b.cloud.spryker.toys:
                         store: AT
+                        <<: *frontend-auth
             backgw:
                 application: backend-gateway
                 endpoints:
                     backend-gateway.de.tgext-b2b.cloud.spryker.toys:
                         store: DE
-                        primal: true
                     backend-gateway.at.tgext-b2b.cloud.spryker.toys:
                         store: AT
             backapi:
@@ -158,20 +152,18 @@ services:
             mail.tgext-b2b.cloud.spryker.toys:
 
 docker:
-    blackfire:
-        enabled: true
 
     ssl:
         enabled: true
         redirect: true
 
-    testing:
-        store: DE
-
     debug:
         enabled: false
         xdebug:
             enabled: false
+
+    testing:
+        store: DE
 
     mount:
         baked:
