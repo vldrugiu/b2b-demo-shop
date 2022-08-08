@@ -1,15 +1,22 @@
 version: "0.1"
 
+x-frontend-auth: &frontend-auth
+    auth:
+        engine: basic
+        users:
+            - username: cloud
+              password: cloud
+
 namespace: spryker-cloud
 tag: '1.0'
 
-environment: docker
+environment: docker.dev
 image:
     tag: spryker/php:7.4-alpine3.12
     environment:
         SPRYKER_DEFAULT_STORE: "DE"
         SPRYKER_ACTIVE_STORES: "DE,AT"
-        SPRYKER_HOOK_BEFORE_DEPLOY: "vendor/bin/install -r EU/pre-deploy -vvv "
+        SPRYKER_HOOK_BEFORE_DEPLOY: "vendor/bin/install -r EU/pre-deploy -vvv"
         SPRYKER_HOOK_AFTER_DEPLOY: "true"
         SPRYKER_HOOK_INSTALL: "vendor/bin/install -r EU/production --no-ansi -vvv"
         SPRYKER_HOOK_DESTRUCTIVE_INSTALL: "vendor/bin/install -r EU/destructive --no-ansi -vvv"
@@ -67,15 +74,19 @@ groups:
                 endpoints:
                     www.de.tgext-b2b.cloud.spryker.toys:
                         store: DE
+                        <<: *frontend-auth
                     www.at.tgext-b2b.cloud.spryker.toys:
                         store: AT
+                        <<: *frontend-auth
             boffice:
                 application: backoffice
                 endpoints:
                     backoffice.de.tgext-b2b.cloud.spryker.toys:
                         store: DE
+                        <<: *frontend-auth
                     backoffice.at.tgext-b2b.cloud.spryker.toys:
                         store: AT
+                        <<: *frontend-auth
             backgw:
                 application: backend-gateway
                 endpoints:
@@ -111,7 +122,6 @@ services:
                 protocol: tcp
     broker:
         engine: rabbitmq
-        version: '3.9'
         api:
             username: "spryker"
             password: "secret"
@@ -134,14 +144,12 @@ services:
                 protocol: tcp
     scheduler:
         engine: jenkins
-        version: '2.324'
-        csrf-protection-enabled: true
         endpoints:
-            scheduler.internal-testing.demo-spryker.com:
+            scheduler.tgext-b2b.cloud.spryker.toys:
     mail_catcher:
         engine: mailhog
         endpoints:
-            mail.internal-testing.demo-spryker.com:
+            mail.tgext-b2b.cloud.spryker.toys:
 
 docker:
 
@@ -159,4 +167,3 @@ docker:
 
     mount:
         baked:
-
