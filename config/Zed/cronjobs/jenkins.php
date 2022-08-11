@@ -169,6 +169,7 @@ $jobs[] = [
 
 /* Message broker */
 if (Config::get(MessageBrokerAwsConstants::SQS_RECEIVER_CONFIG) !== '[]') {
+    echo "message-SQS_RECEIVER_CONFIG:" . Config::get(MessageBrokerAwsConstants::SQS_RECEIVER_CONFIG)
     $jobs[] = [
         'name' => 'message-broker-consume-channels',
         'command' => '$PHP_BIN vendor/bin/console message-broker:consume --time-limit=15',
