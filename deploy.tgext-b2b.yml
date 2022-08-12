@@ -39,7 +39,7 @@ regions:
     EU:
         services:
             database:
-                database: tgext_b2b #Example: environment_staging
+                database: tgext_b2b
                 username: spryker
                 password: secret
 
@@ -122,7 +122,6 @@ services:
                 protocol: tcp
     broker:
         engine: rabbitmq
-        version: '3.9'
         api:
             username: "spryker"
             password: "secret"
@@ -145,8 +144,6 @@ services:
                 protocol: tcp
     scheduler:
         engine: jenkins
-        version: '2.324'
-        csrf-protection-enabled: true
         endpoints:
             scheduler.tgext-b2b.cloud.spryker.toys:
     mail_catcher:
