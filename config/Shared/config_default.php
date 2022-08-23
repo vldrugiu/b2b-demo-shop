@@ -501,10 +501,20 @@ $config[MailConstants::SENDER_NAME] = getenv('SPRYKER_MAIL_SENDER_NAME') ?: null
 
 // >>> FILESYSTEM
 $config[FileSystemConstants::FILESYSTEM_SERVICE] = [
+    //'files' => [
+    //    'sprykerAdapterClass' => LocalFilesystemBuilderPlugin::class,
+    //    'root' => APPLICATION_ROOT_DIR . '/data/DE/media/',
+    //    'path' => 'files/',
+    //],*/
     'files' => [
-        'sprykerAdapterClass' => LocalFilesystemBuilderPlugin::class,
-        'root' => APPLICATION_ROOT_DIR . '/data/DE/media/',
-        'path' => 'files/',
+        'sprykerAdapterClass' => \Spryker\Service\FlysystemAws3v3FileSystem\Plugin\Flysystem\Aws3v3FilesystemBuilderPlugin::class,
+        'root' => '/',
+        'path' => '/files',
+        'key' => getenv('DATA_IMPORT_S3_KEY'),
+        'secret' => getenv('DATA_IMPORT_S3_SECRET'),
+        'bucket' => getenv('DATA_IMPORT_S3_BUCKET'),
+        'version' => '2006-03-01',
+        'region' => 'eu-west-2',
     ],
 ];
 $config[FileManagerConstants::STORAGE_NAME] = 'files';
