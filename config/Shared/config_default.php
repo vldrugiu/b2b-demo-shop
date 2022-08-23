@@ -174,7 +174,8 @@ if (class_exists(TestifyConstants::class)) {
 $trustedHosts
     = $config[HttpConstants::ZED_TRUSTED_HOSTS]
     = $config[HttpConstants::YVES_TRUSTED_HOSTS]
-    = array_filter(explode(',', getenv('SPRYKER_TRUSTED_HOSTS') ?: ''));
+    = array_filter(explode(',', '' ?: ''));
+    
 
 $config[KernelConstants::DOMAIN_WHITELIST] = array_merge($trustedHosts, [
     $sprykerBackendHost,
