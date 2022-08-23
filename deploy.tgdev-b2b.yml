@@ -20,6 +20,7 @@ image:
         SPRYKER_HOOK_AFTER_DEPLOY: "true"
         SPRYKER_HOOK_INSTALL: "vendor/bin/install -r EU/production --no-ansi -vvv"
         SPRYKER_HOOK_DESTRUCTIVE_INSTALL: "vendor/bin/install -r EU/destructive --no-ansi -vvv"
+        AWS_REGION: 'eu-west-2'
 
 composer:
     mode: --no-dev
@@ -122,6 +123,7 @@ services:
                 protocol: tcp
     broker:
         engine: rabbitmq
+        version: '3.9'
         api:
             username: "spryker"
             password: "secret"
@@ -144,6 +146,7 @@ services:
                 protocol: tcp
     scheduler:
         engine: jenkins
+        version: '2.324'
         endpoints:
             scheduler.tgdev-b2b.cloud.spryker.toys:
     mail_catcher:
