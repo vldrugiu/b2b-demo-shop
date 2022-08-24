@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "999a0966d1d51b0fbc188b747cd0466f",
+    "content-hash": "84755f233dec1669fa4788c70ed198e0",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2197,6 +2197,61 @@
                 }
             ],
             "time": "2022-04-14T14:56:29+00:00"
+        },
+        {
+            "name": "league/flysystem-aws-s3-v3",
+            "version": "2.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-aws-s3-v3.git",
+                "reference": "bf8c03f9c1c8a69f7fd2854d57127840e1b6ccd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/bf8c03f9c1c8a69f7fd2854d57127840e1b6ccd2",
+                "reference": "bf8c03f9c1c8a69f7fd2854d57127840e1b6ccd2",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "^3.132.4",
+                "league/flysystem": "^2.0.0",
+                "league/mime-type-detection": "^1.0.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "conflict": {
+                "guzzlehttp/ringphp": "<1.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\AwsS3V3\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "AWS S3 filesystem adapter for Flysystem.",
+            "keywords": [
+                "Flysystem",
+                "aws",
+                "file",
+                "files",
+                "filesystem",
+                "s3",
+                "storage"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem-aws-s3-v3/issues",
+                "source": "https://github.com/thephpleague/flysystem-aws-s3-v3/tree/2.4.3"
+            },
+            "time": "2022-02-16T18:40:49+00:00"
         },
         {
             "name": "league/flysystem-ftp",
@@ -26839,6 +26894,55 @@
                 "source": "https://github.com/spryker/flysystem/tree/2.1.0"
             },
             "time": "2021-10-26T10:08:16+00:00"
+        },
+        {
+            "name": "spryker/flysystem-aws3v3-file-system",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker/flysystem-aws3v3-file-system.git",
+                "reference": "32bdd901a23597c5b09e439b5d4f1281fb81e140"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker/flysystem-aws3v3-file-system/zipball/32bdd901a23597c5b09e439b5d4f1281fb81e140",
+                "reference": "32bdd901a23597c5b09e439b5d4f1281fb81e140",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem-aws-s3-v3": "^2.1.0",
+                "php": ">=7.3",
+                "spryker/kernel": "^3.30.0"
+            },
+            "require-dev": {
+                "spryker/code-sniffer": "*",
+                "spryker/flysystem": "*",
+                "spryker/propel": "*",
+                "spryker/testify": "*"
+            },
+            "suggest": {
+                "spryker/flysystem": "Flysystem module"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spryker\\": "src/Spryker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "FlysystemAws3v3FileSystem module",
+            "support": {
+                "source": "https://github.com/spryker/flysystem-aws3v3-file-system/tree/2.0.0"
+            },
+            "time": "2021-10-08T18:13:40+00:00"
         },
         {
             "name": "spryker/flysystem-ftp-file-system",
@@ -60678,5 +60782,5 @@
     "platform-overrides": {
         "php": "7.4.20"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
