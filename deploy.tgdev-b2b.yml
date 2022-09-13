@@ -1,18 +1,49 @@
 version: "0.1"
 
+x-real-ip: &real-ip
+    real-ip:
+        from:
+            - 10.0.0.0/8 # AWS VPC network
+            - 103.21.244.0/22 # Cloudflare
+            - 103.22.200.0/22 # Cloudflare
+            - 103.31.4.0/22 # Cloudflare
+            - 104.16.0.0/12 # Cloudflare
+            - 108.162.192.0/18 # Cloudflare
+            - 131.0.72.0/22 # Cloudflare
+            - 141.101.64.0/18 # Cloudflare
+            - 162.158.0.0/15 # Cloudflare
+            - 172.64.0.0/13 # Cloudflare
+            - 173.245.48.0/20 # Cloudflare
+            - 188.114.96.0/20 # Cloudflare
+            - 190.93.240.0/20 # Cloudflare
+            - 197.234.240.0/22 # Cloudflare
+            - 198.41.128.0/17 # Cloudflare
+            - 2400:cb00::/32 # Cloudflare
+            - 2606:4700::/32 # Cloudflare
+            - 2803:f800::/32 # Cloudflare
+            - 2405:b500::/32 # Cloudflare
+            - 2405:8100::/32 # Cloudflare
+            - 2c0f:f248::/32 # Cloudflare
+            - 2a06:98c0::/29 # Cloudflare
+
 x-frontend-auth: &frontend-auth
+    <<: *real-ip
     auth:
         engine: basic
         users:
             - username: cloud
               password: cloud
+        exclude:
+            - '${ALLOWED_IP}' # AWS gateway
+            - 185.60.20.0/24 # PayOne
+            - 77.122.97.254/32 # Olena Krivtsova
 
 namespace: spryker-cloud
 tag: '1.0'
 
 environment: docker.dev
 image:
-    tag: spryker/php:7.4-alpine3.12
+    tag: spryker/php:7.4
     environment:
         SPRYKER_DEFAULT_STORE: "DE"
         SPRYKER_ACTIVE_STORES: "DE,AT"
@@ -21,6 +52,13 @@ image:
         SPRYKER_HOOK_INSTALL: "vendor/bin/install -r EU/production --no-ansi -vvv"
         SPRYKER_HOOK_DESTRUCTIVE_INSTALL: "vendor/bin/install -r EU/destructive --no-ansi -vvv"
         AWS_REGION: 'eu-west-2'
+    node:
+        version: 16
+        npm: 8
+    php:
+        enabled-extensions:
+            - blackfire
+            - newrelic
 
 composer:
     mode: --no-dev
@@ -39,8 +77,12 @@ assets:
 regions:
     EU:
         services:
+            mail:
+                sender:
+                    name: Spryker No-Reply
+                    email: no-reply@tgdev-b2b.cloud.spryker.toys
             database:
-                database: tgdev_b2b #Example: environment_staging
+                database: tgdev_b2b
                 username: spryker
                 password: secret
 
@@ -84,10 +126,9 @@ groups:
                 endpoints:
                     backoffice.de.tgdev-b2b.cloud.spryker.toys:
                         store: DE
-                        <<: *frontend-auth
+                        primal: true
                     backoffice.at.tgdev-b2b.cloud.spryker.toys:
                         store: AT
-                        <<: *frontend-auth
             backgw:
                 application: backend-gateway
                 endpoints:
@@ -140,7 +181,7 @@ services:
                 protocol: tcp
     search:
         engine: elastic
-        version: 7.6
+        version: '7.10'
         endpoints:
             localhost:9200:
                 protocol: tcp
@@ -148,7 +189,7 @@ services:
         engine: jenkins
         version: '2.324'
         endpoints:
-            scheduler.tgdev-b2b.cloud.spryker.toys:
+            jenkins2.tgdev-b2b.cloud.spryker.toys:
     mail_catcher:
         engine: mailhog
         endpoints:
