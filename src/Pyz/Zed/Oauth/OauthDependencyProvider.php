@@ -11,7 +11,10 @@ use Spryker\Zed\Oauth\OauthDependencyProvider as SprykerOauthDependencyProvider;
 use Spryker\Zed\OauthAgentConnector\Communication\Plugin\Oauth\AgentCredentialsOauthGrantTypeConfigurationProviderPlugin;
 use Spryker\Zed\OauthAgentConnector\Communication\Plugin\Oauth\AgentOauthScopeProviderPlugin;
 use Spryker\Zed\OauthAgentConnector\Communication\Plugin\Oauth\AgentOauthUserProviderPlugin;
+use Spryker\Zed\OauthCodeFlow\Communication\Plugin\Oauth\CustomerAuthCodeOauthRequestGrantTypeConfigurationProviderPlugin;
+use Spryker\Zed\OauthCodeFlow\Communication\Plugin\Oauth\UserAuthCodeOauthRequestGrantTypeConfigurationProviderPlugin;
 use Spryker\Zed\OauthCompanyUser\Communication\Plugin\Oauth\CompanyUserAccessTokenOauthGrantTypeConfigurationProviderPlugin;
+use Spryker\Zed\OauthCompanyUser\Communication\Plugin\Oauth\CompanyUserAccessTokenOauthUserProviderPlugin;
 use Spryker\Zed\OauthCompanyUser\Communication\Plugin\Oauth\CompanyUserOauthScopeProviderPlugin;
 use Spryker\Zed\OauthCompanyUser\Communication\Plugin\Oauth\CompanyUserOauthUserProviderPlugin;
 use Spryker\Zed\OauthCompanyUser\Communication\Plugin\Oauth\IdCompanyUserOauthGrantTypeConfigurationProviderPlugin;
@@ -41,6 +44,7 @@ class OauthDependencyProvider extends SprykerOauthDependencyProvider
             new CompanyUserOauthUserProviderPlugin(),
             new AgentOauthUserProviderPlugin(),
             new CustomerImpersonationOauthUserProviderPlugin(),
+            new CompanyUserAccessTokenOauthUserProviderPlugin(),
         ];
     }
 
@@ -147,6 +151,16 @@ class OauthDependencyProvider extends SprykerOauthDependencyProvider
     {
         return [
             new OauthRefreshTokensReaderPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Zed\OauthExtension\Dependency\Plugin\OauthRequestGrantTypeConfigurationProviderPluginInterface>
+     */
+    protected function getOauthRequestGrantTypeConfigurationProviderPlugins() : array
+    {
+        return [
+            new UserAuthCodeOauthRequestGrantTypeConfigurationProviderPlugin(),
+            new CustomerAuthCodeOauthRequestGrantTypeConfigurationProviderPlugin(),
         ];
     }
 }
