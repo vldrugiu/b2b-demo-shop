@@ -13,6 +13,7 @@ use Spryker\Zed\ProductConfigurationShoppingList\Communication\Plugin\ShoppingLi
 use Spryker\Zed\ProductConfigurationShoppingList\Communication\Plugin\ShoppingList\ProductConfigurationShoppingListItemBulkPostSavePlugin;
 use Spryker\Zed\ProductConfigurationShoppingList\Communication\Plugin\ShoppingList\ProductConfigurationShoppingListItemCollectionExpanderPlugin;
 use Spryker\Zed\ProductDiscontinued\Communication\Plugin\ShoppingList\ProductDiscontinuedAddItemPreCheckPlugin;
+use Spryker\Zed\ShoppingList\Communication\Plugin\ShoppingList\ShoppingListItemProductConcreteHasValidStoreAddItemPreCheckPlugin;
 use Spryker\Zed\ShoppingList\Communication\Plugin\ShoppingListItemProductConcreteActiveAddItemPreCheckPlugin;
 use Spryker\Zed\ShoppingList\ShoppingListDependencyProvider as SprykerShoppingListDependencyProvider;
 use Spryker\Zed\ShoppingListNote\Communication\Plugin\ItemCartNoteToShoppingListItemNoteMapperPlugin;
@@ -35,6 +36,7 @@ class ShoppingListDependencyProvider extends SprykerShoppingListDependencyProvid
             new ProductDiscontinuedAddItemPreCheckPlugin(), #ProductDiscontinuedFeature
             new ShoppingListItemProductConcreteActiveAddItemPreCheckPlugin(),
             new ProductConfigurationShoppingListAddItemPreCheckPlugin(),
+            new ShoppingListItemProductConcreteHasValidStoreAddItemPreCheckPlugin(),
         ];
     }
 

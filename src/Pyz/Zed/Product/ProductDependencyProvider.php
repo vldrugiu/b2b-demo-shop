@@ -42,6 +42,8 @@ use Spryker\Zed\ProductValidity\Communication\Plugin\ProductValidityUpdatePlugin
 use Spryker\Zed\Stock\Communication\Plugin\Product\StockProductConcreteExpanderPlugin;
 use Spryker\Zed\Stock\Communication\Plugin\ProductConcreteAfterCreatePlugin as StockProductConcreteAfterCreatePlugin;
 use Spryker\Zed\Stock\Communication\Plugin\ProductConcreteAfterUpdatePlugin as StockProductConcreteAfterUpdatePlugin;
+use Spryker\Zed\TaxProductConnector\Communication\Plugin\Product\TaxSetProductAbstractExpanderPlugin;
+use Spryker\Zed\TaxProductConnector\Communication\Plugin\Product\TaxSetProductAbstractPostCreatePlugin;
 use Spryker\Zed\TaxProductConnector\Communication\Plugin\TaxSetProductAbstractAfterCreatePlugin;
 use Spryker\Zed\TaxProductConnector\Communication\Plugin\TaxSetProductAbstractAfterUpdatePlugin;
 use Spryker\Zed\TaxProductConnector\Communication\Plugin\TaxSetProductAbstractReadPlugin;
@@ -185,6 +187,26 @@ class ProductDependencyProvider extends SprykerProductDependencyProvider
         return [
             new ImageSetProductConcreteMergerPlugin(),
             new PriceProductConcreteMergerPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Zed\ProductExtension\Dependency\Plugin\ProductAbstractPostCreatePluginInterface>
+     */
+    protected function getProductAbstractPostCreatePlugins() : array
+    {
+        return [
+            new TaxSetProductAbstractPostCreatePlugin(),
+        ];
+    }
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return array<\Spryker\Zed\ProductExtension\Dependency\Plugin\ProductAbstractExpanderPluginInterface>
+     */
+    protected function getProductAbstractExpanderPlugins(\Spryker\Zed\Kernel\Container $container) : array
+    {
+        return [
+            new TaxSetProductAbstractExpanderPlugin(),
         ];
     }
 }

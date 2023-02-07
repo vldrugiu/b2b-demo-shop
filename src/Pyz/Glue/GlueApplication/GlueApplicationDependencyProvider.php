@@ -29,6 +29,7 @@ use Spryker\Glue\AvailabilityNotificationsRestApi\Plugin\GlueApplication\MyAvail
 use Spryker\Glue\CartCodesRestApi\Plugin\GlueApplication\CartCodesResourceRoutePlugin;
 use Spryker\Glue\CartCodesRestApi\Plugin\GlueApplication\CartRuleByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\CartCodesRestApi\Plugin\GlueApplication\CartVouchersResourceRoutePlugin;
+use Spryker\Glue\CartCodesRestApi\Plugin\GlueApplication\GuestCartCodesResourceRoutePlugin;
 use Spryker\Glue\CartCodesRestApi\Plugin\GlueApplication\VoucherByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\CartPermissionGroupsRestApi\Plugin\GlueApplication\CartPermissionGroupByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\CartPermissionGroupsRestApi\Plugin\GlueApplication\CartPermissionGroupByShareDetailResourceRelationshipPlugin;
@@ -77,6 +78,8 @@ use Spryker\Glue\CompanyUsersRestApi\Plugin\GlueApplication\CompanyUserByShareDe
 use Spryker\Glue\CompanyUsersRestApi\Plugin\GlueApplication\CompanyUserRestUserValidatorPlugin;
 use Spryker\Glue\CompanyUsersRestApi\Plugin\GlueApplication\CompanyUsersResourceRoutePlugin;
 use Spryker\Glue\ConfigurableBundleCartsRestApi\Plugin\GlueApplication\ConfiguredBundlesResourceRoutePlugin;
+use Spryker\Glue\ConfigurableBundlesProductsResourceRelationship\ConfigurableBundlesProductsResourceRelationshipConfig;
+use Spryker\Glue\ConfigurableBundlesProductsResourceRelationship\Plugin\GlueApplication\ProductConcreteByConfigurableBundleTemplateSlotResourceRelationshipPlugin;
 use Spryker\Glue\ConfigurableBundlesRestApi\ConfigurableBundlesRestApiConfig;
 use Spryker\Glue\ConfigurableBundlesRestApi\Plugin\GlueApplication\ConfigurableBundleTemplateImageSetByConfigurableBundleTemplateResourceRelationshipPlugin;
 use Spryker\Glue\ConfigurableBundlesRestApi\Plugin\GlueApplication\ConfigurableBundleTemplateSlotByConfigurableBundleTemplateResourceRelationshipPlugin;
@@ -111,6 +114,14 @@ use Spryker\Glue\GlueApplication\Plugin\GlueApplication\HeadersValidateHttpReque
 use Spryker\Glue\GlueApplication\Plugin\GlueApplication\PaginationParametersValidateHttpRequestPlugin;
 use Spryker\Glue\GlueApplication\Plugin\Rest\SetStoreCurrentLocaleBeforeActionPlugin;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRelationshipCollectionInterface;
+use Spryker\Glue\GlueBackendApiApplication\Plugin\GlueApplication\ControllerCacheCollectorPlugin;
+use Spryker\Glue\GlueBackendApiApplication\Plugin\GlueApplication\CustomRouteRoutesProviderPlugin;
+use Spryker\Glue\GlueBackendApiApplication\Plugin\GlueApplication\ResourcesProviderPlugin;
+use Spryker\Glue\GlueJsonApiConvention\Plugin\GlueApplication\JsonApiConventionPlugin;
+use Spryker\Glue\GlueStorefrontApiApplication\Plugin\GlueApplication\ControllerCacheCollectorPlugin;
+use Spryker\Glue\GlueStorefrontApiApplication\Plugin\GlueApplication\CustomRouteRoutesProviderPlugin;
+use Spryker\Glue\GlueStorefrontApiApplication\Plugin\GlueApplication\ResourcesProviderPlugin;
+use Spryker\Glue\GlueStorefrontApiApplication\Plugin\GlueApplication\StorefrontApiGlueApplicationBootstrapPlugin;
 use Spryker\Glue\HealthCheck\Plugin\HealthCheckResourceRoutePlugin;
 use Spryker\Glue\Http\Plugin\Application\HttpApplicationPlugin;
 use Spryker\Glue\NavigationsCategoryNodesResourceRelationship\Plugin\GlueApplication\CategoryNodeByResourceIdResourceRelationshipPlugin;
@@ -128,8 +139,8 @@ use Spryker\Glue\ProductAvailabilitiesRestApi\Plugin\AbstractProductAvailabiliti
 use Spryker\Glue\ProductAvailabilitiesRestApi\Plugin\ConcreteProductAvailabilitiesRoutePlugin;
 use Spryker\Glue\ProductAvailabilitiesRestApi\Plugin\GlueApplication\AbstractProductAvailabilitiesByResourceIdResourceRelationshipPlugin;
 use Spryker\Glue\ProductAvailabilitiesRestApi\Plugin\GlueApplication\ConcreteProductAvailabilitiesByResourceIdResourceRelationshipPlugin;
-use Spryker\Glue\ProductBundleCartsRestApi\Plugin\GlueApplication\BundledItemByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\ProductBundleCartsRestApi\Plugin\GlueApplication\BundleItemByQuoteResourceRelationshipPlugin;
+use Spryker\Glue\ProductBundleCartsRestApi\Plugin\GlueApplication\BundledItemByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\ProductBundleCartsRestApi\Plugin\GlueApplication\GuestBundleItemByQuoteResourceRelationshipPlugin;
 use Spryker\Glue\ProductBundleCartsRestApi\ProductBundleCartsRestApiConfig;
 use Spryker\Glue\ProductBundlesRestApi\Plugin\GlueApplication\BundledProductByProductConcreteSkuResourceRelationshipPlugin;
@@ -163,6 +174,8 @@ use Spryker\Glue\ProductPricesRestApi\Plugin\GlueApplication\SetPriceModeBeforeA
 use Spryker\Glue\ProductReviewsRestApi\Plugin\GlueApplication\AbstractProductsProductReviewsResourceRoutePlugin;
 use Spryker\Glue\ProductReviewsRestApi\Plugin\GlueApplication\ProductReviewsRelationshipByProductAbstractSkuPlugin;
 use Spryker\Glue\ProductReviewsRestApi\Plugin\GlueApplication\ProductReviewsRelationshipByProductConcreteSkuPlugin;
+use Spryker\Glue\ProductTaxSetsRestApi\Plugin\GlueApplication\ProductTaxSetByProductAbstractSkuResourceRelationshipPlugin;
+use Spryker\Glue\ProductTaxSetsRestApi\Plugin\GlueApplication\ProductTaxSetsResourceRoutePlugin;
 use Spryker\Glue\ProductsCategoriesResourceRelationship\Plugin\AbstractProductsCategoriesResourceRelationshipPlugin;
 use Spryker\Glue\ProductsRestApi\Plugin\AbstractProductsResourceRoutePlugin;
 use Spryker\Glue\ProductsRestApi\Plugin\ConcreteProductsResourceRoutePlugin;
@@ -171,8 +184,6 @@ use Spryker\Glue\ProductsRestApi\Plugin\GlueApplication\ConcreteProductsByProduc
 use Spryker\Glue\ProductsRestApi\Plugin\GlueApplication\ProductAbstractByProductAbstractSkuResourceRelationshipPlugin;
 use Spryker\Glue\ProductsRestApi\Plugin\GlueApplication\ProductAbstractBySkuResourceRelationshipPlugin;
 use Spryker\Glue\ProductsRestApi\ProductsRestApiConfig;
-use Spryker\Glue\ProductTaxSetsRestApi\Plugin\GlueApplication\ProductTaxSetByProductAbstractSkuResourceRelationshipPlugin;
-use Spryker\Glue\ProductTaxSetsRestApi\Plugin\GlueApplication\ProductTaxSetsResourceRoutePlugin;
 use Spryker\Glue\RelatedProductsRestApi\Plugin\GlueApplication\RelatedProductsResourceRoutePlugin;
 use Spryker\Glue\RestRequestValidator\Plugin\ValidateRestRequestAttributesPlugin;
 use Spryker\Glue\Router\Plugin\Application\RouterApplicationPlugin;
@@ -198,6 +209,7 @@ use Spryker\Glue\ShoppingListsRestApi\Plugin\GlueApplication\ShoppingListsResour
 use Spryker\Glue\ShoppingListsRestApi\ShoppingListsRestApiConfig;
 use Spryker\Glue\StoresRestApi\Plugin\StoresResourceRoutePlugin;
 use Spryker\Glue\UpSellingProductsRestApi\Plugin\GlueApplication\CartUpSellingProductsResourceRoutePlugin;
+use Spryker\Glue\UpSellingProductsRestApi\Plugin\GlueApplication\GuestCartUpSellingProductsResourceRoutePlugin;
 use Spryker\Glue\UrlsRestApi\Plugin\GlueApplication\UrlResolverResourceRoutePlugin;
 
 class GlueApplicationDependencyProvider extends SprykerGlueApplicationDependencyProvider
@@ -279,6 +291,8 @@ class GlueApplicationDependencyProvider extends SprykerGlueApplicationDependency
             new ConfigurableBundleTemplatesResourceRoutePlugin(),
             new ConfiguredBundlesResourceRoutePlugin(),
             new CartCodesResourceRoutePlugin(),
+            new GuestCartCodesResourceRoutePlugin(),
+            new GuestCartUpSellingProductsResourceRoutePlugin(),
         ];
     }
 
@@ -692,6 +706,7 @@ class GlueApplicationDependencyProvider extends SprykerGlueApplicationDependency
             ConfigurableBundlesRestApiConfig::RESOURCE_CONFIGURABLE_BUNDLE_TEMPLATES,
             new ConfigurableBundleTemplateImageSetByConfigurableBundleTemplateResourceRelationshipPlugin(),
         );
+        $resourceRelationshipCollection->addRelationship(ConfigurableBundlesProductsResourceRelationshipConfig::RESOURCE_CONFIGURABLE_BUNDLE_TEMPLATE_SLOTS, new ProductConcreteByConfigurableBundleTemplateSlotResourceRelationshipPlugin());
 
         return $resourceRelationshipCollection;
     }
@@ -719,5 +734,54 @@ class GlueApplicationDependencyProvider extends SprykerGlueApplicationDependency
             new GlueApplicationApplicationPlugin(),
             new RouterApplicationPlugin(),
         ];
+    }
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ControllerCacheCollectorPluginInterface>
+     */
+    protected function getControllerCacheCollectorPlugins() : array
+    {
+        return [
+            new ControllerCacheCollectorPlugin(),
+            new ControllerCacheCollectorPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RoutesProviderPluginInterface>
+     */
+    protected function getRoutesProviderPlugins() : array
+    {
+        return [
+            new CustomRouteRoutesProviderPlugin(),
+            new CustomRouteRoutesProviderPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface>
+     */
+    protected function getResourcesProviderPlugins() : array
+    {
+        return [
+            new ResourcesProviderPlugin(),
+            new ResourcesProviderPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface>
+     */
+    protected function getConventionPlugins() : array
+    {
+        return [
+            new JsonApiConventionPlugin(),
+        ];
+    }
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface>
+     */
+    protected function getGlueApplicationBootstrapPlugins() : array
+    {
+        return array_merge(parent::getGlueApplicationBootstrapPlugins(), [
+        ], [
+            new StorefrontApiGlueApplicationBootstrapPlugin(),
+        ]);
     }
 }
